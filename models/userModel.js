@@ -17,10 +17,16 @@ const userSchema = mongoose.Schema(
             type: String,
             required: true,
         },
-        admin: {
+        isAdmin: {
             type: Boolean,
             default: false,
         },
+        avatar: String,
+        profilePicture: String,
+        position: String,
+        livesIn: String,
+        worksAt: String,
+        country: String,
     },
     { timestamps: true },
 );

@@ -3,7 +3,7 @@ import jwt from 'jsonwebtoken';
 export const verifyToken = (req, res, next) => {
     //Access token from header, refresh token from cookie
     const token = req.headers.token;
-    const refreshToken = req.cookies.refreshToken;
+    // const refreshToken = req.cookies.refreshToken;
 
     if (token) {
         const accessToken = token.split(' ')[1];

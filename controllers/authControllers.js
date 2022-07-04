@@ -14,6 +14,10 @@ export const registerUser = async (req, res) => {
     const newUser = new UserModel({ firstName, lastName, password: hashed, email });
 
     try {
+        const oldUser = await UserModel.findOne({ email });
+
+        if (oldUser) return res.status(400).json({ message: 'User already exists' });
+
         await newUser.save();
         res.status(200).json(newUser);
     } catch (error) {
@@ -23,8 +27,9 @@ export const registerUser = async (req, res) => {
 
 //Login
 export const loginUser = async (req, res) => {
+    const { email, password } = req.body;
+
     try {
-        const { email, password } = req.body;
         const user = await UserModel.findOne({ email: email });
         const validPassword = await bcrypt.compare(password, user.password);
 
@@ -71,7 +76,7 @@ const generateAccessToken = (user) => {
             isAdmin: user.isAdmin,
         },
         process.env.JWT_ACCESS_TOKEN,
-        { expiresIn: '1h' },
+        { expiresIn: '15s' },
     );
 };
 

@@ -20,6 +20,20 @@ export const getUser = async (req, res) => {
     }
 };
 
+//Get all user
+export const getAllUsers = async (req, res) => {
+    try {
+        let users = await UserModel.find();
+        users = users.map((user) => {
+            const { password, ...otherDetails } = user._doc;
+            return otherDetails;
+        });
+        res.status(200).json(users);
+    } catch (error) {
+        res.status(500).json(error);
+    }
+};
+
 //Update a user
 export const updateUser = async (req, res) => {
     const id = req.params.id;
@@ -33,8 +47,15 @@ export const updateUser = async (req, res) => {
             }
 
             const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
-
-            res.status(200) / json(user);
+            const token = jwt.sign(
+                {
+                    email: user.email,
+                    id: user._id,
+                },
+                process.env.JWT_ACCESS_TOKEN,
+                { expiresIn: '1h' },
+            );
+            res.status(200).json({user, token});
         } catch (error) {
             res.status(500).json(error);
         }
@@ -43,7 +64,7 @@ export const updateUser = async (req, res) => {
     }
 };
 
-//Delete user
+//Delete a user
 export const deleteUser = async (req, res) => {
     const id = req.params.id;
 

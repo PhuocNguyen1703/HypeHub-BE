@@ -55,7 +55,7 @@ export const updateUser = async (req, res) => {
                 process.env.JWT_ACCESS_TOKEN,
                 { expiresIn: '1h' },
             );
-            res.status(200).json({user, token});
+            res.status(200).json({ user, token });
         } catch (error) {
             res.status(500).json(error);
         }

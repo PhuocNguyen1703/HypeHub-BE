@@ -4,6 +4,29 @@ import UserModel from '../models/userModel.js';
 
 let refreshTokens = [];
 
+//GenerateToken
+const generateAccessToken = (user) => {
+    return jwt.sign(
+        {
+            id: user.id,
+            isAdmin: user.isAdmin,
+        },
+        process.env.JWT_ACCESS_TOKEN,
+        { expiresIn: '20s' },
+    );
+};
+
+const generateRefreshToken = (user) => {
+    return jwt.sign(
+        {
+            id: user.id,
+            isAdmin: user.isAdmin,
+        },
+        process.env.JWT_REFRESH_TOKEN,
+        { expiresIn: '365d' },
+    );
+};
+
 //Register
 export const registerUser = async (req, res) => {
     const { firstName, lastName, password, email } = req.body;
@@ -34,11 +57,11 @@ export const loginUser = async (req, res) => {
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!user) {
-            res.status(404).json('Incorrect email');
+            return res.status(404).json('Incorrect email');
         }
 
         if (!validPassword) {
-            res.status(404).json('Incorrect password');
+            return res.status(404).json('Incorrect password');
         }
         if (user && validPassword) {
             const accessToken = generateAccessToken(user);
@@ -48,12 +71,12 @@ export const loginUser = async (req, res) => {
             //Store refresh token in cookie
             res.cookie('refreshToken', refreshToken, {
                 httpOnly: true,
-                secure: false,
+                secure: false, //Deploy set true
                 path: '/',
                 sameSite: 'strict',
             });
             const { password, ...others } = user._doc;
-            res.status(200).json({ ...others, accessToken, refreshToken });
+            res.status(200).json({ ...others, accessToken });
         }
     } catch (error) {
         res.status(500).json({ message: error.message });
@@ -63,34 +86,12 @@ export const loginUser = async (req, res) => {
 //Log out
 export const logOut = async (req, res) => {
     //Clear cookies when user log out
-    refreshTokens = refreshTokens.filter((token) => token !== req.body.token);
+    refreshTokens = refreshTokens.filter((token) => token !== req.cookies.refreshToken);
     res.clearCookie('refreshToken');
     res.status(200).json('Logged out successfully');
 };
 
-//GenerateToken
-const generateAccessToken = (user) => {
-    return jwt.sign(
-        {
-            id: user.id,
-            isAdmin: user.isAdmin,
-        },
-        process.env.JWT_ACCESS_TOKEN,
-        { expiresIn: '15s' },
-    );
-};
-
-const generateRefreshToken = (user) => {
-    return jwt.sign(
-        {
-            id: user.id,
-            isAdmin: user.isAdmin,
-        },
-        process.env.JWT_REFRESH_TOKEN,
-        { expiresIn: '365d' },
-    );
-};
-
+// RefreshToken
 export const requestRefreshToken = async (req, res) => {
     //Take refresh token from user
     const refreshToken = req.cookies.refreshToken;
@@ -117,7 +118,6 @@ export const requestRefreshToken = async (req, res) => {
         });
         res.status(200).json({
             accessToken: newAccessToken,
-            refreshToken: newRefreshToken,
         });
     });
 };

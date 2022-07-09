@@ -54,11 +54,12 @@ export const loginUser = async (req, res) => {
 
     try {
         const user = await UserModel.findOne({ email: email });
-        const validPassword = await bcrypt.compare(password, user.password);
 
         if (!user) {
             return res.status(404).json('Incorrect email');
         }
+
+        const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
             return res.status(404).json('Incorrect password');
@@ -83,26 +84,20 @@ export const loginUser = async (req, res) => {
     }
 };
 
-//Log out
-export const logOut = async (req, res) => {
-    //Clear cookies when user log out
-    refreshTokens = refreshTokens.filter((token) => token !== req.cookies.refreshToken);
-    res.clearCookie('refreshToken');
-    res.status(200).json('Logged out successfully');
-};
-
 // RefreshToken
 export const requestRefreshToken = async (req, res) => {
     //Take refresh token from user
     const refreshToken = req.cookies.refreshToken;
     //Send error if token is not valid
-    if (!refreshToken) return res.status(401).json('You are not authenticated');
+    if (!refreshToken) {
+        return res.status(401).json('You are not authenticated');
+    }
     if (!refreshToken.includes(refreshToken)) {
         return res.status(403).json('Refresh token is not valid');
     }
     jwt.verify(refreshToken, process.env.JWT_REFRESH_TOKEN, (err, user) => {
         if (err) {
-            console.log(err);
+            return console.log(err);
         }
         refreshTokens = refreshTokens.filter((token) => token !== refreshToken);
 
@@ -114,10 +109,18 @@ export const requestRefreshToken = async (req, res) => {
             httpOnly: true,
             secure: false,
             path: '/',
-            sameSite: 'strict',
+            sameSite: 'Strict',
         });
         res.status(200).json({
             accessToken: newAccessToken,
         });
     });
+};
+
+//Log out
+export const logOut = async (req, res) => {
+    //Clear cookies when user log out
+    refreshTokens = refreshTokens.filter((token) => token !== req.cookies.refreshToken);
+    res.clearCookie('refreshToken');
+    res.status(200).json('Logged out successfully');
 };

@@ -1,22 +1,28 @@
 import jwt from 'jsonwebtoken';
 
 export const verifyToken = (req, res, next) => {
-    //Access token from header, refresh token from cookie
-    const token = req.headers.token;
-    // const refreshToken = req.cookies.refreshToken;
-
-    if (token) {
-        const accessToken = token.split(' ')[1];
-        jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN, (err, user) => {
-            if (err) {
-                res.status(403).json('Token is not valid');
-            }
-            req.user = user;
+    try {
+        //Access token from header, refresh token from cookie
+        const accessToken = req.headers.token.split(' ')[1];
+        if (accessToken) {
+            const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
+            req.body._id = decoded?.id;
             next();
-        });
-    } else {
-        res.status(401).json('You are not authenticated');
+        }
+    } catch (error) {
+        console.log(error);
     }
+
+    // if (token) {
+    //     jwt.verify(accessToken, secret, (err, user) => {
+    //         if (err) {
+    //             return res.status(403).json('Token is not valid');
+    //         }
+    //         req.user = user;
+    //     });
+    // } else {
+    //     res.status(401).json('You are not authenticated');
+    // }
 };
 
 export const verifyTokenAndUserAuthorization = (req, res, next) => {

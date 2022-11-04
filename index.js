@@ -8,6 +8,7 @@ import userRoute from './routers/userRoute.js';
 import ChatRoute from './routers/chatRoute.js';
 import MessageRoute from './routers/messageRoute.js';
 import UploadRoute from './routers/uploadRoute.js';
+import KanbanRoute from './routers/kanbanRoute.js';
 
 dotenv.config();
 const app = express();
@@ -32,6 +33,7 @@ app.use('/user', userRoute);
 app.use('/chat', ChatRoute);
 app.use('/message', MessageRoute);
 app.use('/upload', UploadRoute);
+app.use('/kanban', KanbanRoute);
 
 app.listen(process.env.PORT, () => {
     console.log('server is running');

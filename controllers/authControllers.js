@@ -5,7 +5,7 @@ import UserModel from '../models/userModel.js';
 let refreshTokens = [];
 
 //GenerateToken
-const generateAccessToken = (user) => {
+export const generateAccessToken = (user) => {
     return jwt.sign(
         {
             id: user.id,
@@ -29,12 +29,12 @@ const generateRefreshToken = (user) => {
 
 //Register
 export const registerUser = async (req, res) => {
-    const { firstName, lastName, password, email } = req.body;
+    const { firstName, lastName, password, email, profile } = req.body;
 
     const salt = await bcrypt.genSalt(10);
     const hashed = await bcrypt.hash(password, salt);
 
-    const newUser = new UserModel({ firstName, lastName, password: hashed, email });
+    const newUser = new UserModel({ firstName, lastName, password: hashed, email, profile });
 
     try {
         const oldUser = await UserModel.findOne({ email });

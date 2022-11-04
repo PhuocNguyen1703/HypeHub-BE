@@ -7,6 +7,7 @@ import authRoute from './routers/authRoute.js';
 import userRoute from './routers/userRoute.js';
 import ChatRoute from './routers/chatRoute.js';
 import MessageRoute from './routers/messageRoute.js';
+import UploadRoute from './routers/uploadRoute.js';
 
 dotenv.config();
 const app = express();
@@ -22,13 +23,15 @@ app.use(
     }),
 );
 app.use(cookieParser());
-app.use(express.json());
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
 //Routes
 app.use('/auth', authRoute);
 app.use('/user', userRoute);
 app.use('/chat', ChatRoute);
 app.use('/message', MessageRoute);
+app.use('/upload', UploadRoute);
 
 app.listen(process.env.PORT, () => {
     console.log('server is running');

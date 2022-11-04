@@ -1,5 +1,6 @@
 import UserModel from '../models/userModel.js';
 import bcrypt from 'bcrypt';
+import { generateAccessToken } from './authControllers.js';
 
 //Get a user
 export const getUser = async (req, res) => {
@@ -37,25 +38,26 @@ export const getAllUsers = async (req, res) => {
 //Update a user
 export const updateUser = async (req, res) => {
     const id = req.params.id;
-    const { currentUserId, currentUserAdminStatus, password } = req.body;
+    const { _id, password } = req.body;
 
-    if (id === currentUserId || currentUserAdminStatus) {
+    if (id === _id) {
         try {
             if (password) {
                 const salt = await bcrypt.genSalt(10);
-                req.body.password = await bcrypt.hash(password, salt);
+                return (req.body.password = await bcrypt.hash(password, salt));
             }
+            const updateUser = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
 
-            const user = await UserModel.findByIdAndUpdate(id, req.body, { new: true });
-            const token = jwt.sign(
-                {
-                    email: user.email,
-                    id: user._id,
-                },
-                process.env.JWT_ACCESS_TOKEN,
-                { expiresIn: '1h' },
-            );
-            res.status(200).json({ user, token });
+            const user = await UserModel.findById(id);
+
+            if (user) {
+                const { password, ...otherDetails } = user._doc;
+                const accessToken = generateAccessToken(user);
+
+                res.status(200).json({ ...otherDetails, accessToken });
+            } else {
+                res.status(404).json('No such user exists');
+            }
         } catch (error) {
             res.status(500).json(error);
         }

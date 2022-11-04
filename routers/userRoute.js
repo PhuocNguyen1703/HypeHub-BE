@@ -4,9 +4,9 @@ import { verifyToken, verifyTokenAndAdmin, verifyTokenAndUserAuthorization } fro
 
 const router = express.Router();
 
-router.get('/:id', verifyToken, getUser);
-router.get('/', verifyToken, getAllUsers);
-router.put('/:id', verifyTokenAndAdmin, updateUser);
+router.get('/:id', getUser);
+router.get('/', getAllUsers);
+router.put('/:id', verifyToken, updateUser);
 router.delete('/:id', verifyTokenAndUserAuthorization, deleteUser);
 
 export default router;

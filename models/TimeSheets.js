@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-const TimeSheetSchema = mongoose.Schema(
+const TimeSheetsSchema = mongoose.Schema(
     {
         userId: {
             type: String,
@@ -32,5 +32,5 @@ const TimeSheetSchema = mongoose.Schema(
     },
 );
 
-const TimeSheetModel = mongoose.model('TimeSheet', TimeSheetSchema);
-export default TimeSheetModel;
+const TimeSheetsModel = mongoose.model('TimeSheets', TimeSheetsSchema);
+export default TimeSheetsModel;

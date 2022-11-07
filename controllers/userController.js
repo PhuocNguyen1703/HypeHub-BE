@@ -66,6 +66,33 @@ export const updateUser = async (req, res) => {
     }
 };
 
+//Update faceRecognition in user
+export const updateUserFaceID = async (req, res) => {
+    const id = req.params.id;
+    const { _id } = req.body;
+
+    if (id === _id) {
+        try {
+            const updateUser = await UserModel.findByIdAndUpdate({ _id: id }, req.body, { new: true });
+
+            const user = await UserModel.findById(id);
+
+            if (user) {
+                const { password, ...otherDetails } = user._doc;
+                const accessToken = generateAccessToken(user);
+
+                res.status(200).json({ ...otherDetails, accessToken });
+            } else {
+                res.status(404).json('No such user exists');
+            }
+        } catch (error) {
+            res.status(500).json(error);
+        }
+    } else {
+        res.status(403).json('Access Denied! You can only update your own profile');
+    }
+};
+
 //Delete a user
 export const deleteUser = async (req, res) => {
     const id = req.params.id;

@@ -8,6 +8,7 @@ const userSchema = mongoose.Schema(
         },
         lastName: {
             type: String,
+            default:'',
         },
         email: {
             type: String,
@@ -21,16 +22,50 @@ const userSchema = mongoose.Schema(
             type: Boolean,
             default: false,
         },
-        banner: String,
-        avatar: String,
-        fullName: String,
-        livesIn: String,
-        streetAddress: String,
-        birth: String,
-        gender: String,
-        hashtag: String,
-        position: String,
-        phone: String,
+        banner: {
+            type:String,
+            default:'',
+        },
+        avatar: {
+            type:String,
+            default:'',
+        },
+        fullName: {
+            type:String,
+            default:'',
+        },
+        livesIn: {
+            type:String,
+            default:'',
+        },
+        streetAddress: {
+            type:String,
+            default:'',
+        },
+        birth: {
+            type:String,
+            default:'',
+        },
+        gender: {
+            type:String,
+            default:'',
+        },
+        hashtag: {
+            type:String,
+            default:'',
+        },
+        position: {
+            type:String,
+            default:'',
+        },
+        phone: {
+            type:String,
+            default:'',
+        },
+        faceId: {
+            type: String,
+            default: '',
+        },
     },
     { timestamps: true },
 );

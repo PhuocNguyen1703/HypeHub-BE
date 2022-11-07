@@ -4,14 +4,13 @@ const SectionSchema = mongoose.Schema(
     {
         userId: {
             type: String,
-            required: true,
         },
         sectionId: {
             type: String,
-            required: true,
         },
         title: {
             type: String,
+            default: '',
         },
     },
     {

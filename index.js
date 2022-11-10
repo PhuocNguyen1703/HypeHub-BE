@@ -9,6 +9,7 @@ import ChatRoute from './routers/chatRoute.js';
 import MessageRoute from './routers/messageRoute.js';
 import UploadRoute from './routers/uploadRoute.js';
 import KanbanRoute from './routers/kanbanRoute.js';
+import TimeSheetsRoute from './routers/timeSheets.js';
 
 dotenv.config();
 const app = express();
@@ -34,7 +35,8 @@ app.use('/chat', ChatRoute);
 app.use('/message', MessageRoute);
 app.use('/upload', UploadRoute);
 app.use('/kanban', KanbanRoute);
+app.use('/timeSheets', TimeSheetsRoute);
 
-app.listen(process.env.PORT, () => {
+app.listen(process.env.PORT || 5000, () => {
     console.log('server is running');
 });

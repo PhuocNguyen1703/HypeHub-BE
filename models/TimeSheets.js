@@ -6,15 +6,19 @@ const TimeSheetsSchema = mongoose.Schema(
             type: String,
             require: true,
         },
+        date: {
+            type: String,
+            require: true,
+        },
         fullName: {
             type: String,
             require: true,
         },
         checkIn: {
-            type: Date,
+            type: String,
         },
         checkOut: {
-            type: Date,
+            type: String,
         },
         totalHrs: {
             type: Number,

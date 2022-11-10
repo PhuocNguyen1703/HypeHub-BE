@@ -1,4 +1,4 @@
-import TimeSheetModel from '../models/TimeSheets';
+import TimeSheetModel from '../models/TimeSheets.js';
 
 export const createSheet = async (req, res) => {
     const newSheet = new TimeSheetModel(req.body);

@@ -19,9 +19,10 @@ mongoose.connect(process.env.MONGO_DB, () => {
 });
 
 //http://localhost:3000
+//'https://reliable-jelly-47e173.netlify.app'
 app.use(
     cors({
-        origin: 'https://reliable-jelly-47e173.netlify.app',
+        origin: 'http://localhost:3000',
         credentials: true,
     }),
 );

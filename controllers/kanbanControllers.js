@@ -1,5 +1,5 @@
-import SectionModel from '../models/SectionModel.js';
-import TaskModel from '../models/TaskModel.js';
+import SectionModel from '../models/sectionModel.js';
+import TaskModel from '../models/taskModel.js';
 
 //Section controllers
 export const createSection = async (req, res) => {

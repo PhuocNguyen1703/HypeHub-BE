@@ -14,6 +14,20 @@ const EmailSchema = mongoose.Schema(
         content: {
             type: String,
         },
+        status: {
+            watched: {
+                type: Boolean,
+                default: true,
+            },
+            star: {
+                type: Boolean,
+                default: false,
+            },
+            spam: {
+                type: Boolean,
+                default: true,
+            },
+        },
     },
     {
         timestamps: true,

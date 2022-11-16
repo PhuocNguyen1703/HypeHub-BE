@@ -2,6 +2,9 @@ import mongoose from 'mongoose';
 
 const TodoSchema = mongoose.Schema(
     {
+        userId: {
+            type: String,
+        },
         title: {
             type: String,
         },

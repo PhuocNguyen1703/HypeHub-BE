@@ -8,6 +8,7 @@ import userRoute from './routers/userRoute.js';
 import emailRoute from './routers/emailRoute.js';
 import chatRoute from './routers/chatRoute.js';
 import messageRoute from './routers/messageRoute.js';
+import todoRoute from './routers/todoRoute.js';
 import uploadRoute from './routers/uploadRoute.js';
 import kanbanRoute from './routers/kanbanRoute.js';
 import timeSheetsRoute from './routers/timeSheets.js';
@@ -37,9 +38,10 @@ app.use('/user', userRoute);
 app.use('/email', emailRoute);
 app.use('/chat', chatRoute);
 app.use('/message', messageRoute);
-app.use('/upload', uploadRoute);
+app.use('/todo', todoRoute);
 app.use('/kanban', kanbanRoute);
 app.use('/timeSheets', timeSheetsRoute);
+app.use('/upload', uploadRoute);
 
 app.listen(process.env.PORT || 5000, () => {
     console.log('server is running');

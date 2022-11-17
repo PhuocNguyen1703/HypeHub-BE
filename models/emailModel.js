@@ -5,7 +5,13 @@ const EmailSchema = mongoose.Schema(
         senderId: {
             type: String,
         },
+        sender: {
+            type: String,
+        },
         receiverId: {
+            type: String,
+        },
+        receiver: {
             type: String,
         },
         subject: {

@@ -8,7 +8,7 @@ const createNew = async (data) => {
         getNewColumn.cards = [];
 
         //update columnOrder Array in board collection
-        await boardModel.pushColumnOrder(createdColumn.boardId.toString(), createdColumn._id.toString());
+        await boardModel.pushColumnOrder(getNewColumn.boardId.toString(), getNewColumn._id.toString());
 
         return getNewColumn;
     } catch (error) {

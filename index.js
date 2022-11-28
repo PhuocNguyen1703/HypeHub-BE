@@ -11,7 +11,7 @@ import messageRoute from './routers/messageRoute.js';
 import todoRoute from './routers/todoRoute.js';
 import calendarRoute from './routers/calendarRoute.js';
 import uploadRoute from './routers/uploadRoute.js';
-import boardRoute from './routers/kanban/boardRoute.js';
+import kanbanRoute from './routers/kanban/kanbanRoute.js';
 import timeSheetsRoute from './routers/timeSheets.js';
 import { connectDB } from './config/mongodb.js';
 
@@ -55,16 +55,16 @@ const bootServer = () => {
     app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
     //Routes
-    app.use('/auth', authRoute);
-    app.use('/user', userRoute);
-    app.use('/email', emailRoute);
-    app.use('/chat', chatRoute);
-    app.use('/message', messageRoute);
-    app.use('/todo', todoRoute);
-    app.use('/calendar', calendarRoute);
-    app.use('/kanban', boardRoute);
-    app.use('/timeSheets', timeSheetsRoute);
-    app.use('/upload', uploadRoute);
+    app.use('/api/auth', authRoute);
+    app.use('/api/user', userRoute);
+    app.use('/api/email', emailRoute);
+    app.use('/api/chat', chatRoute);
+    app.use('/api/message', messageRoute);
+    app.use('/api/todo', todoRoute);
+    app.use('/api/calendar', calendarRoute);
+    app.use('/api/kanban', kanbanRoute);
+    app.use('/api/timeSheets', timeSheetsRoute);
+    app.use('/api/upload', uploadRoute);
 
     app.listen(process.env.PORT || 5000, () => {
         console.log('server is running');

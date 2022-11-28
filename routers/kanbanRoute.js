@@ -1,4 +1,5 @@
 import express from 'express';
+import { boardController } from '../controllers/kanban/boardController.js';
 import {
     createSection,
     createTask,
@@ -10,12 +11,14 @@ import {
 
 const router = express.Router();
 
-router.post('/', createSection);
-router.get('/:userId', getAllSection);
-router.put('/:sectionId', updateSection);
-router.delete('/:sectionId', deleteSection);
+// router.post('/', createSection);
+// router.get('/:userId', getAllSection);
+// router.put('/:sectionId', updateSection);
+// router.delete('/:sectionId', deleteSection);
 
-router.post('/task', createTask);
-router.get('/task/:sectionId', getAllTask);
+// router.post('/task', createTask);
+// router.get('/task/:sectionId', getAllTask);
+
+router.post('/', boardController.createNew);
 
 export default router;

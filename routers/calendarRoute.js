@@ -4,6 +4,6 @@ import { createCalendar, getAllCalendar } from '../controllers/calendarControlle
 const router = express.Router();
 
 router.post('/', createCalendar);
-router.get('/', getAllCalendar);
+router.get('/:userId', getAllCalendar);
 
 export default router;

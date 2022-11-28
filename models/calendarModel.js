@@ -11,7 +11,7 @@ const CalendarSchema = mongoose.Schema(
         calendarType: {
             type: String,
         },
-        Date: {
+        date: {
             type: String,
         },
         startTime: {

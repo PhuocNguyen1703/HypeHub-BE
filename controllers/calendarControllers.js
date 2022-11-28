@@ -12,7 +12,7 @@ export const createCalendar = async (req, res) => {
 };
 
 export const getAllCalendar = async (req, res) => {
-    const { userId } = req.body;
+    const { userId } = req.params;
 
     try {
         const result = await CalendarModel.find({ userId });

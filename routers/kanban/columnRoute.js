@@ -7,4 +7,5 @@ const router = express.Router();
 router.post('/', columnValidation.createNew, columnController.createNew);
 router.put('/:id', columnValidation.update, columnController.update);
 
+
 export default router;

@@ -14,6 +14,7 @@ import uploadRoute from './routers/uploadRoute.js';
 import kanbanRoute from './routers/kanbanRoute.js';
 import timeSheetsRoute from './routers/timeSheets.js';
 import { connectDB } from './config/mongodb.js';
+import { boardModel } from './models/kanban/boardModel.js';
 
 dotenv.config();
 
@@ -65,6 +66,12 @@ const bootServer = () => {
     app.use('/kanban', kanbanRoute);
     app.use('/timeSheets', timeSheetsRoute);
     app.use('/upload', uploadRoute);
+    app.get('/test', async (req, res) => {
+        let fake = {
+            title: 'dev 2',
+        };
+        await boardModel.createNew(fake);
+    });
 
     app.listen(process.env.PORT || 5000, () => {
         console.log('server is running');

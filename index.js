@@ -66,12 +66,6 @@ const bootServer = () => {
     app.use('/kanban', kanbanRoute);
     app.use('/timeSheets', timeSheetsRoute);
     app.use('/upload', uploadRoute);
-    app.get('/test', async (req, res) => {
-        let fake = {
-            title: 'dev 2',
-        };
-        await boardModel.createNew(fake);
-    });
 
     app.listen(process.env.PORT || 5000, () => {
         console.log('server is running');

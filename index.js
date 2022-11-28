@@ -16,9 +16,14 @@ import timeSheetsRoute from './routers/timeSheets.js';
 import { connectDB } from './config/mongodb.js';
 
 dotenv.config();
-const app = express();
 
-connectDB().catch(console.log);
+connectDB()
+    .then(() => console.log('Connected successfully to database server'))
+    .then(() => bootServer())
+    .catch((error) => {
+        console.log(error);
+        process.exit(1);
+    });
 
 // mongoose.connect(process.env.MONGO_DB, () => {
 //     console.log('Connected to Mongo DB');
@@ -36,28 +41,32 @@ connectDB().catch(console.log);
 
 //http://localhost:3000
 //'https://reliable-jelly-47e173.netlify.app'
-app.use(
-    cors({
-        origin: 'http://localhost:3000',
-        credentials: true,
-    }),
-);
-app.use(cookieParser());
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
+const bootServer = () => {
+    const app = express();
 
-//Routes
-app.use('/auth', authRoute);
-app.use('/user', userRoute);
-app.use('/email', emailRoute);
-app.use('/chat', chatRoute);
-app.use('/message', messageRoute);
-app.use('/todo', todoRoute);
-app.use('/calendar', calendarRoute);
-app.use('/kanban', kanbanRoute);
-app.use('/timeSheets', timeSheetsRoute);
-app.use('/upload', uploadRoute);
+    app.use(
+        cors({
+            origin: 'http://localhost:3000',
+            credentials: true,
+        }),
+    );
+    app.use(cookieParser());
+    app.use(express.json({ limit: '50mb' }));
+    app.use(express.urlencoded({ limit: '50mb', extended: true }));
 
-app.listen(process.env.PORT || 5000, () => {
-    console.log('server is running');
-});
+    //Routes
+    app.use('/auth', authRoute);
+    app.use('/user', userRoute);
+    app.use('/email', emailRoute);
+    app.use('/chat', chatRoute);
+    app.use('/message', messageRoute);
+    app.use('/todo', todoRoute);
+    app.use('/calendar', calendarRoute);
+    app.use('/kanban', kanbanRoute);
+    app.use('/timeSheets', timeSheetsRoute);
+    app.use('/upload', uploadRoute);
+
+    app.listen(process.env.PORT || 5000, () => {
+        console.log('server is running');
+    });
+};

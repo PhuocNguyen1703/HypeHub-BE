@@ -8,6 +8,7 @@ import {
     getAllTask,
     updateSection,
 } from '../controllers/kanbanControllers.js';
+import { boardValidation } from '../validations/kanban/boardValidation.js';
 
 const router = express.Router();
 
@@ -19,6 +20,6 @@ const router = express.Router();
 // router.post('/task', createTask);
 // router.get('/task/:sectionId', getAllTask);
 
-router.post('/', boardController.createNew);
+router.post('/', boardValidation.createNew, boardController.createNew);
 
 export default router;

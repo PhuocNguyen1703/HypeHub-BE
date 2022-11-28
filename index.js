@@ -19,7 +19,7 @@ import { boardModel } from './models/kanban/boardModel.js';
 dotenv.config();
 
 connectDB()
-    .then(() => console.log('Connected successfully to database server'))
+    .then(() => console.log('Connected successfully to mongoDB'))
     .then(() => bootServer())
     .catch((error) => {
         console.log(error);

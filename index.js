@@ -13,23 +13,26 @@ import calendarRoute from './routers/calendarRoute.js';
 import uploadRoute from './routers/uploadRoute.js';
 import kanbanRoute from './routers/kanbanRoute.js';
 import timeSheetsRoute from './routers/timeSheets.js';
+import { connectDB } from './config/mongodb.js';
 
 dotenv.config();
 const app = express();
 
-mongoose.connect(process.env.MONGO_DB, () => {
-    console.log('Connected to Mongo DB');
-});
+connectDB().catch(console.log);
 
-const connectDB = async () => {
-    try {
-        await mongoose.connect(process.env.MONGO_DB);
-        console.log('Connected to Mongo DB');
-    } catch (error) {
-        console.log("Error, can't connect to DB");
-    }
-};
-connectDB();
+// mongoose.connect(process.env.MONGO_DB, () => {
+//     console.log('Connected to Mongo DB');
+// });
+
+// const connectDB = async () => {
+//     try {
+//         await mongoose.connect(process.env.MONGO_DB);
+//         console.log('Connected to Mongo DB');
+//     } catch (error) {
+//         console.log("Error, can't connect to DB");
+//     }
+// };
+// connectDB();
 
 //http://localhost:3000
 //'https://reliable-jelly-47e173.netlify.app'

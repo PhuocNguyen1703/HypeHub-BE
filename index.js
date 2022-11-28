@@ -11,10 +11,9 @@ import messageRoute from './routers/messageRoute.js';
 import todoRoute from './routers/todoRoute.js';
 import calendarRoute from './routers/calendarRoute.js';
 import uploadRoute from './routers/uploadRoute.js';
-import kanbanRoute from './routers/kanbanRoute.js';
+import boardRoute from './routers/kanban/boardRoute.js';
 import timeSheetsRoute from './routers/timeSheets.js';
 import { connectDB } from './config/mongodb.js';
-import { boardModel } from './models/kanban/boardModel.js';
 
 dotenv.config();
 
@@ -63,7 +62,7 @@ const bootServer = () => {
     app.use('/message', messageRoute);
     app.use('/todo', todoRoute);
     app.use('/calendar', calendarRoute);
-    app.use('/kanban', kanbanRoute);
+    app.use('/kanban', boardRoute);
     app.use('/timeSheets', timeSheetsRoute);
     app.use('/upload', uploadRoute);
 

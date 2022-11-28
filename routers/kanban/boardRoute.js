@@ -1,5 +1,5 @@
 import express from 'express';
-import { boardController } from '../controllers/kanban/boardController.js';
+import { boardController } from '../../controllers/kanban/boardController.js';
 import {
     createSection,
     createTask,
@@ -7,8 +7,9 @@ import {
     getAllSection,
     getAllTask,
     updateSection,
-} from '../controllers/kanbanControllers.js';
-import { boardValidation } from '../validations/kanban/boardValidation.js';
+} from '../../controllers/kanbanControllers.js';
+import { boardValidation } from '../../validations/kanban/boardValidation.js';
+import columnRoute from './columnRoute.js';
 
 const router = express.Router();
 
@@ -21,5 +22,7 @@ const router = express.Router();
 // router.get('/task/:sectionId', getAllTask);
 
 router.post('/', boardValidation.createNew, boardController.createNew);
+
+router.use('/column', columnRoute);
 
 export default router;

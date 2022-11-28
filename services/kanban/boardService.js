@@ -1,5 +1,5 @@
 import { boardModel } from '../../models/kanban/boardModel.js';
-import { cloneDeep } from 'lodash';
+import cloneDeep from 'lodash';
 
 const createNew = async (data) => {
     try {
@@ -38,4 +38,18 @@ const getAllBoard = async (boardId) => {
     }
 };
 
-export const boardService = { createNew, getAllBoard };
+const update = async (id, data) => {
+    try {
+        const updateData = { ...data, updatedAt: Date.now() };
+        // if (updateData._id) delete updateData._id;
+        // if (updateData.columns) delete updateData.columns;
+
+        const updatedBoard = await boardModel.update(id, updateData);
+
+        return updatedBoard;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const boardService = { createNew, getAllBoard, update };

@@ -17,4 +17,21 @@ const createNew = async (req, res, next) => {
     }
 };
 
-export const cardValidation = { createNew };
+const update = async (req, res, next) => {
+    const condition = Joi.object({
+        title: Joi.string().min(3).max(50).trim(),
+        boardId: Joi.string(),
+        columnId: Joi.string(),
+    });
+
+    try {
+        await condition.validateAsync(req.body, { abortEarly: false, allowUnknown: true });
+        next();
+    } catch (error) {
+        res.status(400).json({
+            errors: new Error(error).message,
+        });
+    }
+};
+
+export const cardValidation = { createNew, update };

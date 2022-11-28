@@ -14,5 +14,6 @@ const router = express.Router();
 
 router.post('/', boardValidation.createNew, boardController.createNew);
 router.get('/:id', boardController.getAllBoard);
+router.put('/:id', boardValidation.update, boardController.update);
 
 export default router;

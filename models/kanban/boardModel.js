@@ -1,6 +1,8 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../../config/mongodb.js';
+import { columnModel } from './columnModel.js';
+import { cardModel } from './cardModel.js';
 
 const boardCollectionName = 'boards';
 const boardSchema = Joi.object({
@@ -38,4 +40,62 @@ const createNew = async (data) => {
     }
 };
 
-export const boardModel = { findOneById, createNew };
+/**
+ * @param {string} boardId
+ * @param {string} columnId
+ */
+
+const pushColumnOrder = async (boardId, columnId) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .findOneAndUpdate([
+                {
+                    _id: ObjectId(boardId),
+                },
+                {
+                    $push: { columnOrder: columnId },
+                },
+                { returnDocument: 'after' },
+            ]);
+        return result.value;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getAllBoard = async (boardId) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .aggregate([
+                {
+                    $match: {
+                        _id: ObjectId(boardId),
+                    },
+                },
+                {
+                    $lookup: {
+                        from: columnModel.columnCollectionName,
+                        localField: '_id',
+                        foreignField: 'boardId',
+                        as: 'columns',
+                    },
+                },
+                {
+                    $lookup: {
+                        from: cardModel.cardCollectionName,
+                        localField: '_id',
+                        foreignField: 'boardId',
+                        as: 'cards',
+                    },
+                },
+            ])
+            .toArray();
+        return result[0] || {};
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const boardModel = { findOneById, createNew, pushColumnOrder, getAllBoard };

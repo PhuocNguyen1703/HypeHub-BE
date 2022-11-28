@@ -23,6 +23,7 @@ const router = express.Router();
 // router.get('/task/:sectionId', getAllTask);
 
 router.post('/', boardValidation.createNew, boardController.createNew);
+router.get('/:id', boardController.getAllBoard);
 
 router.use('/column', columnRoute);
 router.use('/card', cardRoute);

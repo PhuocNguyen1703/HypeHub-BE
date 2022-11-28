@@ -1,5 +1,6 @@
 import { columnModel } from '../../models/kanban/columnModel.js';
 import { boardModel } from '../../models/kanban/boardModel.js';
+import { cardModel } from '../../models/kanban/cardModel.js';
 
 const createNew = async (data) => {
     try {
@@ -19,9 +20,16 @@ const createNew = async (data) => {
 const update = async (id, data) => {
     try {
         const updateData = { ...data, updatedAt: Date.now() };
-        const result = await columnModel.update(id, updateData);
+        // if (updateData._id) delete updateData._id;
+        // if (updateData.cards) delete updateData.cards;
 
-        return result;
+        const updatedColumn = await columnModel.update(id, updateData);
+
+        if (updatedColumn._destroy) {
+            cardModel.deleteMany(updatedColumn.cardOrder);
+        }
+
+        return updatedColumn;
     } catch (error) {
         throw new Error(error);
     }

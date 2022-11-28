@@ -49,7 +49,7 @@ const pushColumnOrder = async (boardId, columnId) => {
     try {
         const result = await getDB()
             .collection(boardCollectionName)
-            .findOneAndUpdate([
+            .findOneAndUpdate(
                 {
                     _id: ObjectId(boardId),
                 },
@@ -57,7 +57,7 @@ const pushColumnOrder = async (boardId, columnId) => {
                     $push: { columnOrder: columnId },
                 },
                 { returnDocument: 'after' },
-            ]);
+            );
         return result.value;
     } catch (error) {
         throw new Error(error);

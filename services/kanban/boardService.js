@@ -2,9 +2,10 @@ import { boardModel } from '../../models/kanban/boardModel.js';
 
 const createNew = async (data) => {
     try {
-        const result = await boardModel.createNew(data);
+        const createdBoard = await boardModel.createNew(data);
+        const getNewBoard = await boardModel.findOneById(createdBoard.insertedId.toString());
 
-        return result;
+        return getNewBoard;
     } catch (error) {
         throw new Error(error);
     }

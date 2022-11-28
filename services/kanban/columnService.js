@@ -3,12 +3,14 @@ import { boardModel } from '../../models/kanban/boardModel.js';
 
 const createNew = async (data) => {
     try {
-        const newColumn = await columnModel.createNew(data);
+        const createdColumn = await columnModel.createNew(data);
+        const getNewColumn = await columnModel.findOneById(createdColumn.insertedId.toString());
+        getNewColumn.cards = [];
 
         //update columnOrder Array in board collection
-        await boardModel.pushColumnOrder(newColumn.boardId.toString(), newColumn._id.toString());
+        await boardModel.pushColumnOrder(createdColumn.boardId.toString(), createdColumn._id.toString());
 
-        return newColumn;
+        return getNewColumn;
     } catch (error) {
         throw new Error(error);
     }

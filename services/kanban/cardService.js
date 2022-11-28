@@ -3,12 +3,12 @@ import { columnModel } from '../../models/kanban/columnModel.js';
 
 const createNew = async (data) => {
     try {
-        const newCard = await cardModel.createNew(data);
-
+        const createdCard = await cardModel.createNew(data);
+        const getNewCard = await cardModel.findOneById(createdCard.insertedId.toString());
         //update cardOrder Array in board collection
-        await columnModel.pushCardOrder(newCard.columnId.toString(), newCard._id.toString());
+        await columnModel.pushCardOrder(getNewCard.columnId.toString(), getNewCard._id.toString());
 
-        return newCard;
+        return getNewCard;
     } catch (error) {
         throw new Error(error);
     }

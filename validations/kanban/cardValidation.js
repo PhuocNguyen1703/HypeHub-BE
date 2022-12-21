@@ -5,6 +5,10 @@ const createNew = async (req, res, next) => {
         boardId: Joi.string().required(),
         columnId: Joi.string().required(),
         title: Joi.string().required().min(3).max(50).trim(),
+        label: Joi.string().max(10).trim().allow(''),
+        tagColor: Joi.string(),
+        description: Joi.string().allow('').trim(),
+        cover:Joi.string().allow('')
     });
 
     try {

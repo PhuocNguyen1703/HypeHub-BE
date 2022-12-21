@@ -6,8 +6,11 @@ const cardCollectionName = 'cards';
 const cardSchema = Joi.object({
     boardId: Joi.string().required(),
     columnId: Joi.string().required(),
-    title: Joi.string().required().min(3).max(50),
-    cover: Joi.string().default(null),
+    title: Joi.string().required().min(3).max(50).trim(),
+    label: Joi.string().max(10).trim().allow(''),
+    tagColor: Joi.string(),
+    description: Joi.string().allow(''),
+    cover: Joi.string(),
     createdAt: Joi.date().timestamp().default(Date.now()),
     updatedAt: Joi.date().timestamp().default(null),
     _destroy: Joi.boolean().default(false),

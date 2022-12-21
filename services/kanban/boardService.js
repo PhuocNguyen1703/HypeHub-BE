@@ -1,5 +1,5 @@
 import { boardModel } from '../../models/kanban/boardModel.js';
-import cloneDeep from 'lodash';
+import cloneDeep from 'lodash/cloneDeep.js';
 
 const createNew = async (data) => {
     try {

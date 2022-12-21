@@ -6,7 +6,8 @@ import { cardModel } from './cardModel.js';
 
 const boardCollectionName = 'boards';
 const boardSchema = Joi.object({
-    title: Joi.string().required().min(3).max(20).trim(),
+    userId: Joi.string().required(),
+    title: Joi.string().required().min(3).max(50).trim(),
     columnOrder: Joi.array().items(Joi.string()).default([]),
     createdAt: Joi.date().timestamp().default(Date.now()),
     updatedAt: Joi.date().timestamp().default(null),
@@ -78,6 +79,19 @@ const pushColumnOrder = async (boardId, columnId) => {
     }
 };
 
+const getAllBoardFromUserId = async (userId) => {
+    try {
+        const result = await getDB()
+            .collection(boardCollectionName)
+            .find({ userId: ObjectId(userId) })
+            .toArray();
+        console.log(result);
+        return result || [];
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 const getAllBoard = async (boardId) => {
     try {
         const result = await getDB()
@@ -113,4 +127,4 @@ const getAllBoard = async (boardId) => {
     }
 };
 
-export const boardModel = { findOneById, createNew, update, pushColumnOrder, getAllBoard };
+export const boardModel = { findOneById, createNew, update, pushColumnOrder, getAllBoardFromUserId, getAllBoard };

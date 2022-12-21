@@ -12,6 +12,28 @@ const createNew = async (data) => {
     }
 };
 
+const getAllBoardFromUserId = async (userId) => {
+    try {
+        const board = await boardModel.getAllBoardFromUserId(userId);
+
+        if (!board) {
+            throw new Error('Board not found!!');
+        }
+
+        const transformBoard = cloneDeep(board);
+
+        transformBoard.map(
+            (board) =>
+                //remove columnOrder data from boards
+                delete board.columnOrder,
+        );
+
+        return transformBoard;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 const getAllBoard = async (boardId) => {
     try {
         const board = await boardModel.getAllBoard(boardId);
@@ -52,4 +74,4 @@ const update = async (id, data) => {
     }
 };
 
-export const boardService = { createNew, getAllBoard, update };
+export const boardService = { createNew, getAllBoardFromUserId, getAllBoard, update };

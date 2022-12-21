@@ -11,6 +11,18 @@ const createNew = async (req, res) => {
     }
 };
 
+const getAllBoardFromUserId = async (req, res) => {
+    try {
+        const { userId } = req.params;
+        const result = await boardService.getAllBoardFromUserId(userId);
+        res.status(200).json(result);
+    } catch (error) {
+        res.status(500).json({
+            errors: error.message,
+        });
+    }
+};
+
 const getAllBoard = async (req, res) => {
     try {
         const { id } = req.params;
@@ -35,4 +47,4 @@ const update = async (req, res) => {
     }
 };
 
-export const boardController = { createNew, getAllBoard, update };
+export const boardController = { createNew, getAllBoardFromUserId, getAllBoard, update };

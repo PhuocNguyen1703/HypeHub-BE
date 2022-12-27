@@ -42,7 +42,7 @@ const bootServer = () => {
 
     //Routes
     app.use('/v1/api/auth', authRoute);
-    app.use('/v1/api/user', userRoute);
+    app.use('/v1/api/users', userRoute);
     app.use('/v1/api/email', emailRoute);
     app.use('/v1/api/chat', chatRoute);
     app.use('/v1/api/message', messageRoute);

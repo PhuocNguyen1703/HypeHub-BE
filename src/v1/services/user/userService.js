@@ -1,5 +1,6 @@
 import { userModel } from '../../models/user/userModel.js';
 import bcrypt from 'bcrypt';
+import cloneDeep from 'lodash/cloneDeep.js';
 
 const register = async (data) => {
     const { password } = data;
@@ -19,4 +20,45 @@ const register = async (data) => {
     }
 };
 
-export const userService = { register };
+const getUser = async (userId) => {
+    try {
+        const user = await userModel.getUser(userId);
+
+        if (!user) {
+            throw new Error('User not found!!');
+        }
+
+        return user;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getAllUser = async () => {
+    try {
+        const users = await userModel.getAllUser();
+
+        let transformUsers = cloneDeep(users);
+
+        //Filter deleted user
+        transformUsers = transformUsers.filter((user) => !user._destroy);
+
+        return transformUsers;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const updateUser = async (userId, data) => {
+    try {
+        const updateData = { ...data, updatedAt: Date.now() };
+
+        const updateUser = await userModel.updateUser(userId, updateData);
+
+        return updateUser;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const userService = { register, getUser, getAllUser, updateUser };

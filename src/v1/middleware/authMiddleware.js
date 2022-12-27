@@ -4,12 +4,13 @@ const verifyToken = (req, res, next) => {
     //Access token from header, refresh token from cookie
     const accessToken = req.headers.token.split(' ')[1];
     if (accessToken) {
-        const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
-        if (req.body._id === decoded.id) {
+        jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN, (err, user) => {
+            if (err) {
+                res.status(403).json('Token is not valid!!');
+            }
+            req.user = user;
             next();
-        } else {
-            res.status(403).json('You are not allowed to do that!');
-        }
+        });
     } else {
         res.status(401).json('You are not authenticated');
     }
@@ -17,7 +18,7 @@ const verifyToken = (req, res, next) => {
 
 const verifyTokenAndUserAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
-        if (req.user.id === req.params.id || req.user.isAdmin) {
+        if (req.user.id === req.params.userId || req.user.isAdmin) {
             next();
         } else {
             res.status(403).json('You are not allowed to do that!');

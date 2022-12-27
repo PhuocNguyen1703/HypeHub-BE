@@ -59,4 +59,40 @@ const register = async (data) => {
     }
 };
 
-export const userModel = { findOneById, register };
+const getUser = async (userId) => {
+    try {
+        const user = await getDB()
+            .collection(userCollectionName)
+            .find({ _id: ObjectId(userId) })
+            .toArray();
+
+        return user[0];
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const getAllUser = async () => {
+    try {
+        const result = await getDB().collection(userCollectionName).find().toArray();
+        return result || [];
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+const updateUser = async (userId, data) => {
+    try {
+        const updateData = { ...data };
+
+        const result = await getDB()
+            .collection(userCollectionName)
+            .findOneAndUpdate({ _id: ObjectId(userId) }, { $set: updateData }, { returnDocument: 'after' });
+
+        return result.value;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const userModel = { findOneById, register, getUser, getAllUser, updateUser };

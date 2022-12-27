@@ -1,31 +1,21 @@
 import jwt from 'jsonwebtoken';
 
-export const verifyToken = (req, res, next) => {
-    try {
-        //Access token from header, refresh token from cookie
-        const accessToken = req.headers.token.split(' ')[1];
-        if (accessToken) {
-            const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
-            req.body._id = decoded?.id;
+const verifyToken = (req, res, next) => {
+    //Access token from header, refresh token from cookie
+    const accessToken = req.headers.token.split(' ')[1];
+    if (accessToken) {
+        const decoded = jwt.verify(accessToken, process.env.JWT_ACCESS_TOKEN);
+        if (req.body._id === decoded.id) {
             next();
+        } else {
+            res.status(403).json('You are not allowed to do that!');
         }
-    } catch (error) {
-        console.log(error);
+    } else {
+        res.status(401).json('You are not authenticated');
     }
-
-    // if (token) {
-    //     jwt.verify(accessToken, secret, (err, user) => {
-    //         if (err) {
-    //             return res.status(403).json('Token is not valid');
-    //         }
-    //         req.user = user;
-    //     });
-    // } else {
-    //     res.status(401).json('You are not authenticated');
-    // }
 };
 
-export const verifyTokenAndUserAuthorization = (req, res, next) => {
+const verifyTokenAndUserAuthorization = (req, res, next) => {
     verifyToken(req, res, () => {
         if (req.user.id === req.params.id || req.user.isAdmin) {
             next();
@@ -35,7 +25,7 @@ export const verifyTokenAndUserAuthorization = (req, res, next) => {
     });
 };
 
-export const verifyTokenAndAdmin = (req, res, next) => {
+const verifyTokenAndAdmin = (req, res, next) => {
     verifyToken(req, res, () => {
         if (req.user.isAdmin) {
             next();
@@ -44,3 +34,5 @@ export const verifyTokenAndAdmin = (req, res, next) => {
         }
     });
 };
+
+export const authMiddleware = { verifyToken, verifyTokenAndUserAuthorization, verifyTokenAndAdmin };

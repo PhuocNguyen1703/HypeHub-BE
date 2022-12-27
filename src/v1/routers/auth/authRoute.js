@@ -1,12 +1,13 @@
 import express from 'express';
-import { loginUser, logOut, registerUser, requestRefreshToken } from '../../controllers/authControllers.js';
-import { verifyToken } from '../../middleware/authMiddleware.js';
+import { authController } from '../../controllers/auth/authController.js';
+import { authMiddleware } from '../../middleware/authMiddleware.js';
+import { authService } from '../../services/auth/authService.js';
+import { authValidation } from '../../validations/auth/authValidation.js';
 
 const router = express.Router();
 
-router.post('/login', loginUser);
-router.post('/register', registerUser);
-router.post('/refresh', requestRefreshToken);
-router.post('/logout', verifyToken, logOut);
+router.post('/login', authValidation.login, authController.login);
+router.post('/refresh', authService.requestRefreshToken);
+router.post('/logout', authMiddleware.verifyToken, authController.logout);
 
 export default router;

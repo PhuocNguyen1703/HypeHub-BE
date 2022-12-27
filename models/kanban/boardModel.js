@@ -33,22 +33,23 @@ const findOneById = async (id) => {
 
 const createNew = async (data) => {
     try {
-        const value = await validateSchema(data);
-        const result = await getDB().collection(boardCollectionName).insertOne(value);
+        const validatedValue = await validateSchema(data);
+        const insertValue = { ...validatedValue, userId: ObjectId(validatedValue.userId) };
+        const result = await getDB().collection(boardCollectionName).insertOne(insertValue);
         return result;
     } catch (error) {
         throw new Error(error);
     }
 };
 
-const update = async (id, data) => {
+const update = async (boardId, data) => {
     try {
         const updateData = { ...data };
         // if (data.boardId) updateData.boardId = ObjectId(data.boardId);
 
         const result = await getDB()
             .collection(boardCollectionName)
-            .findOneAndUpdate({ _id: ObjectId(id) }, { $set: updateData }, { returnDocument: 'after' });
+            .findOneAndUpdate({ _id: ObjectId(boardId) }, { $set: updateData }, { returnDocument: 'after' });
         return result.value;
     } catch (error) {
         throw new Error(error);
@@ -85,7 +86,6 @@ const getAllBoardFromUserId = async (userId) => {
             .collection(boardCollectionName)
             .find({ userId: ObjectId(userId) })
             .toArray();
-        console.log(result);
         return result || [];
     } catch (error) {
         throw new Error(error);

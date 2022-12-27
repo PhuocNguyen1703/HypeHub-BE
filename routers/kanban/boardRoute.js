@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.post('/', boardValidation.createNew, boardController.createNew);
 router.get('/user/:userId', boardController.getAllBoardFromUserId);
-router.get('/:id', boardController.getAllBoard);
-router.put('/:id', boardValidation.update, boardController.update);
+router.get('/:boardId', boardController.getAllBoard);
+router.put('/:boardId', boardValidation.update, boardController.update);
 
 export default router;

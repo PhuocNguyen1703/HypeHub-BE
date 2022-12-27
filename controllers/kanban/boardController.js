@@ -25,8 +25,8 @@ const getAllBoardFromUserId = async (req, res) => {
 
 const getAllBoard = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await boardService.getAllBoard(id);
+        const { boardId } = req.params;
+        const result = await boardService.getAllBoard(boardId);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({
@@ -37,8 +37,8 @@ const getAllBoard = async (req, res) => {
 
 const update = async (req, res) => {
     try {
-        const { id } = req.params;
-        const result = await boardService.update(id, req.body);
+        const { boardId } = req.params;
+        const result = await boardService.update(boardId, req.body);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({

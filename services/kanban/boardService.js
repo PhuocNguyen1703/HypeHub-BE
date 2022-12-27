@@ -20,13 +20,10 @@ const getAllBoardFromUserId = async (userId) => {
             throw new Error('Board not found!!');
         }
 
-        const transformBoard = cloneDeep(board);
+        let transformBoard = cloneDeep(board);
 
-        transformBoard.map(
-            (board) =>
-                //remove columnOrder data from boards
-                delete board.columnOrder,
-        );
+        //Filter deleted board
+        transformBoard = transformBoard.filter((board) => !board._destroy);
 
         return transformBoard;
     } catch (error) {
@@ -60,13 +57,14 @@ const getAllBoard = async (boardId) => {
     }
 };
 
-const update = async (id, data) => {
+const update = async (boardId, data) => {
     try {
         const updateData = { ...data, updatedAt: Date.now() };
-        // if (updateData._id) delete updateData._id;
-        // if (updateData.columns) delete updateData.columns;
+        if (updateData._id) delete updateData._id;
+        if (updateData.userId) delete updateData.userId;
+        if (updateData.columns) delete updateData.columns;
 
-        const updatedBoard = await boardModel.update(id, updateData);
+        const updatedBoard = await boardModel.update(boardId, updateData);
 
         return updatedBoard;
     } catch (error) {

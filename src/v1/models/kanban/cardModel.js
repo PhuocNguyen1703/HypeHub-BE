@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
-import { getDB } from '../../config/mongodb.js';
+import { getDB } from '../../../../config/mongodb.js';
 
 const cardCollectionName = 'cards';
 const cardSchema = Joi.object({

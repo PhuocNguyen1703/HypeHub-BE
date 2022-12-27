@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
-import { getDB } from '../../config/mongodb.js';
+import { getDB } from '../../../../config/mongodb.js';
 import { columnModel } from './columnModel.js';
 import { cardModel } from './cardModel.js';
 

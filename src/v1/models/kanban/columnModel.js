@@ -1,6 +1,6 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
-import { getDB } from '../../config/mongodb.js';
+import { getDB } from '../../../../config/mongodb.js';
 
 const columnCollectionName = 'columns';
 const columnSchema = Joi.object({
@@ -67,7 +67,7 @@ const pushCardOrder = async (columnId, cardId) => {
 
 const update = async (id, data) => {
     try {
-        const updateData = { ...data};
+        const updateData = { ...data };
         if (data.boardId) updateData.boardId = ObjectId(data.boardId);
 
         const result = await getDB()

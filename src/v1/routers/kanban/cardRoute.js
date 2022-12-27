@@ -1,6 +1,6 @@
 import express from 'express';
 import { cardController } from '../../controllers/kanban/cardController.js';
-import { cardValidation } from '../../src/v1/kanban/cardValidation.js';
+import { cardValidation } from '../../validations/kanban/cardValidation.js';
 
 const router = express.Router();
 

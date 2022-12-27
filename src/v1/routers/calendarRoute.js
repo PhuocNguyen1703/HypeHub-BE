@@ -1,9 +1,11 @@
 import express from 'express';
-import { createCalendar, getAllCalendar } from '../controllers/calendarControllers.js';
+import { calendarController } from '../controllers/calendar/calendarController.js';
+import { calendarValidation } from '../validations/calendar/calendarValidation.js';
 
 const router = express.Router();
 
-router.post('/', createCalendar);
-router.get('/:userId', getAllCalendar);
+router.post('/', calendarValidation.createNew, calendarController.createNew);
+router.get('/:userId', calendarController.getAllCalendar);
+router.put('/:calendarId', calendarValidation.update, calendarController.update);
 
 export default router;

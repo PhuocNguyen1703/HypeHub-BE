@@ -12,8 +12,9 @@ const createNew = async (req, res) => {
 };
 
 const getAllBoardFromUserId = async (req, res) => {
+    const { userId } = req.params;
+    
     try {
-        const { userId } = req.params;
         const result = await boardService.getAllBoardFromUserId(userId);
         res.status(200).json(result);
     } catch (error) {

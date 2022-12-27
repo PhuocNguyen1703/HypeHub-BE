@@ -1,6 +1,6 @@
 import { cardModel } from '../../models/kanban/cardModel.js';
 import { columnModel } from '../../models/kanban/columnModel.js';
-import cloudinary from '../../utils/cloudinary.js';
+import cloudinary from '../../src/v1/utils/cloudinary.js';
 
 const uploadImage = async (fileStr) => {
     try {

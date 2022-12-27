@@ -1,6 +1,6 @@
 import express from 'express';
 import { columnController } from '../../controllers/kanban/columnController.js';
-import { columnValidation } from '../../validations/kanban/columnValidation.js';
+import { columnValidation } from '../../src/v1/kanban/columnValidation.js';
 
 const router = express.Router();
 

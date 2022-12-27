@@ -1,6 +1,6 @@
 import express from 'express';
 import { boardController } from '../../controllers/kanban/boardController.js';
-import { boardValidation } from '../../validations/kanban/boardValidation.js';
+import { boardValidation } from '../../src/v1/kanban/boardValidation.js';
 
 const router = express.Router();
 

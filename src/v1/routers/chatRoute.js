@@ -1,10 +1,11 @@
 import express from 'express';
-import { createChat, findChat, userChats } from '../controllers/chatController.js';
+import { chatController } from '../controllers/chat/chatController.js';
+import { chatValidation } from '../validations/chat/chatValidation.js';
 
 const router = express.Router();
 
-router.post('/', createChat);
-router.get('/:userId', userChats);
-router.get('/find/:firstId/:secondId', findChat);
+router.post('/', chatValidation.createNew, chatController.createNew);
+router.get('/:userId', chatController.getChatList);
+router.get('/find/:firstId/:secondId', chatController.getConversation);
 
 export default router;

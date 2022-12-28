@@ -4,7 +4,7 @@ import cookieParser from 'cookie-parser';
 import dotenv from 'dotenv';
 import authRoute from './src/v1/routers/auth/authRoute.js';
 import userRoute from './src/v1/routers/user/userRoute.js';
-import emailRoute from './src/v1/routers/emailRoute.js';
+import emailRoute from './src/v1/routers/email/emailRoute.js';
 import chatRoute from './src/v1/routers/chatRoute.js';
 import messageRoute from './src/v1/routers/messageRoute.js';
 import todoRoute from './src/v1/routers/todoRoute.js';

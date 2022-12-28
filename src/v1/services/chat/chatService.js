@@ -48,4 +48,16 @@ const getConversation = async (firstId, secondId) => {
     }
 };
 
-export const chatService = { createNew, getChatList, getConversation };
+const update = async (firstId, secondId, data) => {
+    try {
+        const updateData = { ...data, updatedAt: Date.now() };
+
+        const updatedChat = await chatModel.update(firstId, secondId, updateData);
+
+        return updatedChat;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const chatService = { createNew, getChatList, getConversation, update };

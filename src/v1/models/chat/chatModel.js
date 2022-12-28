@@ -65,4 +65,22 @@ const getConversation = async (firstId, secondId) => {
     }
 };
 
-export const chatModel = { findOneById, createNew, getChatList, getConversation };
+const update = async (firstId, secondId, data) => {
+    try {
+        const updateData = { ...data };
+
+        const result = await getDB()
+            .collection(chatCollectionName)
+            .findOneAndUpdate(
+                { members: { $all: [firstId, secondId] } },
+                { $set: updateData },
+                { returnDocument: 'after' },
+            );
+
+        return result.value;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
+export const chatModel = { findOneById, createNew, getChatList, getConversation, update };

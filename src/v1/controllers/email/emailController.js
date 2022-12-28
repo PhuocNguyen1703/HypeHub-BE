@@ -38,8 +38,9 @@ const getSendEmail = async (req, res) => {
 };
 
 const update = async (req, res) => {
+    const { emailId } = req.params;
+    
     try {
-        const { emailId } = req.params;
         const result = await emailService.update(emailId, req.body);
         res.status(200).json(result);
     } catch (error) {

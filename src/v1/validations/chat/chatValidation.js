@@ -15,4 +15,19 @@ const createNew = async (req, res, next) => {
     }
 };
 
-export const chatValidation = { createNew };
+const update = async (req, res, next) => {
+    const condition = Joi.object({
+        members: Joi.array().items(Joi.string()),
+    });
+
+    try {
+        await condition.validateAsync(req.body, { abortEarly: false, allowUnknown: true });
+        next();
+    } catch (error) {
+        res.status(400).json({
+            errors: new Error(error).message,
+        });
+    }
+};
+
+export const chatValidation = { createNew, update };

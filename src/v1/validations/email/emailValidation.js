@@ -2,11 +2,9 @@ import Joi from 'joi';
 
 const createNew = async (req, res, next) => {
     const condition = Joi.object({
-        senderId: Joi.string().required(),
-        receiverId: Joi.string().required(),
-        senderEmail: Joi.string().email().required(),
-        receiverEmail: Joi.string().email().required(),
-        subject: Joi.string(),
+        sender: Joi.string().email().required().trim(),
+        receiver: Joi.string().email().required().trim(),
+        subject: Joi.string().trim(),
         content: Joi.string(),
     });
 

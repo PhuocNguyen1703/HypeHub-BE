@@ -1,20 +1,33 @@
 import cloneDeep from 'lodash/cloneDeep.js';
+import { ObjectId } from 'mongodb';
 import { emailModel } from '../../models/email/emailModel.js';
 
 const createNew = async (data) => {
+    const { sender, receiver } = data;
     try {
-        const createdTodo = await emailModel.createNew(data);
-        const getNewTodo = await emailModel.findOneById(createdTodo.insertedId.toString());
+        const senderInfo = await emailModel.findOneByEmail(sender);
+        const receiverInfo = await emailModel.findOneByEmail(receiver);
 
-        return getNewTodo;
+        if (!senderInfo) throw 'Sender incorrect!';
+        if (!receiverInfo) throw 'Receiver not found!';
+
+        const transformData = {
+            ...data,
+            sender: { id: ObjectId(senderInfo._id), email: senderInfo.email, fullName: senderInfo.fullName },
+            receiver: { id: ObjectId(receiverInfo._id), email: receiverInfo.email, fullName: receiverInfo.fullName },
+        };
+        const createdEmail = await emailModel.createNew(transformData);
+        const getNewEmail = await emailModel.findOneById(createdEmail.insertedId.toString());
+
+        return getNewEmail;
     } catch (error) {
         throw new Error(error);
     }
 };
 
-const getReceiveEmail = async (receiverId) => {
+const getReceiveEmail = async (userId) => {
     try {
-        const email = await emailModel.getReceiveEmail(receiverId);
+        const email = await emailModel.getReceiveEmail(userId);
 
         if (!email) {
             throw new Error('Email not found!!');
@@ -30,9 +43,9 @@ const getReceiveEmail = async (receiverId) => {
     }
 };
 
-const getSendEmail = async (senderId) => {
+const getSendEmail = async (userId) => {
     try {
-        const email = await emailModel.getSendEmail(senderId);
+        const email = await emailModel.getSendEmail(userId);
 
         if (!email) {
             throw new Error('Email not found!!');

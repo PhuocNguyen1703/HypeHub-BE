@@ -2,10 +2,10 @@ import Joi from 'joi';
 
 const register = async (req, res, next) => {
     const condition = Joi.object({
-        firstName: Joi.string().min(3).required(),
-        lastName: Joi.string().min(3).required(),
+        firstName: Joi.string().required(),
+        lastName: Joi.string().required(),
         email: Joi.string().email().required().trim(),
-        password: Joi.string().min(3).max(20).required().trim(),
+        password: Joi.string().min(8).required().trim(),
     });
 
     try {

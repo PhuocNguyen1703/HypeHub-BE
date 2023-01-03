@@ -12,10 +12,10 @@ const createNew = async (req, res) => {
 };
 
 const getReceiveEmail = async (req, res) => {
-    const { receiverId } = req.params;
+    const { userId } = req.params;
 
     try {
-        const result = await emailService.getReceiveEmail(receiverId);
+        const result = await emailService.getReceiveEmail(userId);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({
@@ -25,10 +25,10 @@ const getReceiveEmail = async (req, res) => {
 };
 
 const getSendEmail = async (req, res) => {
-    const { senderId } = req.params;
+    const { userId } = req.params;
 
     try {
-        const result = await emailService.getSendEmail(senderId);
+        const result = await emailService.getSendEmail(userId);
         res.status(200).json(result);
     } catch (error) {
         res.status(500).json({
@@ -39,7 +39,7 @@ const getSendEmail = async (req, res) => {
 
 const update = async (req, res) => {
     const { emailId } = req.params;
-    
+
     try {
         const result = await emailService.update(emailId, req.body);
         res.status(200).json(result);

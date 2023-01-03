@@ -5,7 +5,7 @@ import { getDB } from '../../../../config/mongodb.js';
 const userCollectionName = 'users';
 const userSchema = Joi.object({
     email: Joi.string().email().required().trim(),
-    password: Joi.string().min(3).required().trim(),
+    password: Joi.string().min(8).required().trim(),
     firstName: Joi.string().default(null),
     lastName: Joi.string().default(null),
     fullName: Joi.string().default(null),
@@ -48,7 +48,7 @@ const register = async (data) => {
     try {
         const oldUser = await getDB().collection(userCollectionName).find({ email: email }).toArray();
 
-        if (oldUser.length >= 1) throw new Error('User already exists');
+        if (oldUser.length >= 1) throw 'User already exists';
 
         const validatedValue = await validateSchema(data);
         const newUser = await getDB().collection(userCollectionName).insertOne(validatedValue);
@@ -95,4 +95,4 @@ const updateUser = async (userId, data) => {
     }
 };
 
-export const userModel = { findOneById, register, getUser, getAllUser, updateUser };
+export const userModel = { userCollectionName, findOneById, register, getUser, getAllUser, updateUser };

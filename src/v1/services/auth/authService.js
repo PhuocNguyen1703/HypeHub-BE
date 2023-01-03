@@ -33,13 +33,13 @@ const login = async (data, res) => {
         const user = await authModel.login(email);
 
         if (!user) {
-            throw new Error('Incorrect email');
+            throw 'Incorrect email.';
         }
 
         const validPassword = await bcrypt.compare(password, user.password);
 
         if (!validPassword) {
-            throw new Error('Incorrect password');
+            throw 'Incorrect password.';
         }
 
         if (user && validPassword) {
@@ -59,7 +59,7 @@ const login = async (data, res) => {
             return { ...others, accessToken };
         }
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };
 

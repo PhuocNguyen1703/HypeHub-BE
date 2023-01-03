@@ -16,7 +16,7 @@ const register = async (data) => {
 
         return getNewUser;
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };
 
@@ -30,7 +30,7 @@ const getUser = async (userId) => {
 
         return user;
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };
 
@@ -45,7 +45,7 @@ const getAllUser = async () => {
 
         return transformUsers;
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };
 
@@ -57,7 +57,7 @@ const updateUser = async (userId, data) => {
 
         return updateUser;
     } catch (error) {
-        throw new Error(error);
+        throw error;
     }
 };
 

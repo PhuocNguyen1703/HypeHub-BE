@@ -1,13 +1,12 @@
 import Joi from 'joi';
 import { ObjectId } from 'mongodb';
 import { getDB } from '../../../../config/mongodb.js';
+import { userModel } from '../user/userModel.js';
 
 const emailCollectionName = 'emails';
 const emailSchema = Joi.object({
-    senderId: Joi.string().required(),
-    receiverId: Joi.string().required(),
-    senderEmail: Joi.string().required(),
-    receiverEmail: Joi.string().required(),
+    sender: Joi.object().required(),
+    receiver: Joi.object().required(),
     subject: Joi.string().default(null),
     content: Joi.string().default(null),
     status: Joi.object({
@@ -42,16 +41,20 @@ const findOneById = async (id) => {
     }
 };
 
+const findOneByEmail = async (email) => {
+    try {
+        const result = await getDB().collection(userModel.userCollectionName).findOne({ email: email });
+        return result;
+    } catch (error) {
+        throw new Error(error);
+    }
+};
+
 const createNew = async (data) => {
     try {
         const validatedValue = await validateSchema(data);
 
-        const insertValue = {
-            ...validatedValue,
-            senderId: ObjectId(validatedValue.senderId),
-            receiverId: ObjectId(validatedValue.receiverId),
-        };
-        const result = await getDB().collection(emailCollectionName).insertOne(insertValue);
+        const result = await getDB().collection(emailCollectionName).insertOne(validatedValue);
 
         return result;
     } catch (error) {
@@ -59,11 +62,11 @@ const createNew = async (data) => {
     }
 };
 
-const getReceiveEmail = async (receiverId) => {
+const getReceiveEmail = async (userId) => {
     try {
         const result = await getDB()
             .collection(emailCollectionName)
-            .find({ receiverId: ObjectId(receiverId) })
+            .find({ 'receiver.id': ObjectId(userId) })
             .toArray();
         return result || [];
     } catch (error) {
@@ -71,11 +74,11 @@ const getReceiveEmail = async (receiverId) => {
     }
 };
 
-const getSendEmail = async (senderId) => {
+const getSendEmail = async (userId) => {
     try {
         const result = await getDB()
             .collection(emailCollectionName)
-            .find({ senderId: ObjectId(senderId) })
+            .find({ 'sender.id': ObjectId(userId) })
             .toArray();
         return result || [];
     } catch (error) {
@@ -96,4 +99,4 @@ const update = async (emailId, data) => {
     }
 };
 
-export const emailModel = { findOneById, createNew, getReceiveEmail, getSendEmail, update };
+export const emailModel = { findOneById, findOneByEmail, createNew, getReceiveEmail, getSendEmail, update };

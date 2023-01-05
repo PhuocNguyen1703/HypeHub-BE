@@ -5,7 +5,7 @@ const createNew = async (req, res, next) => {
         chatId: Joi.string().required(),
         senderId: Joi.string().required(),
         content: Joi.string(),
-        fileUrl: Joi.string(),
+        fileUrl: Joi.string().allow(''),
     });
 
     try {

@@ -4,8 +4,8 @@ const createNew = async (req, res, next) => {
     const condition = Joi.object({
         userId: Joi.string().required(),
         title: Joi.string().min(3).max(20).trim().required(),
-        startTime: Joi.date(),
-        endTime: Joi.date(),
+        startDate: Joi.string(),
+        endDate: Joi.string(),
         content: Joi.string().trim(),
         tag: Joi.array().items(Joi.string()),
     });

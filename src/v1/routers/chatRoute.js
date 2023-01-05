@@ -7,6 +7,6 @@ const router = express.Router();
 router.post('/', chatValidation.createNew, chatController.createNew);
 router.get('/:userId', chatController.getChatList);
 router.get('/find/:firstId/:secondId', chatController.getConversation);
-router.put('/update/:firstId/:secondId',chatValidation.update,chatController.update)
+router.put('/update/:firstId/:secondId', chatValidation.update, chatController.update);
 
 export default router;

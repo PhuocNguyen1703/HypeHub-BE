@@ -7,7 +7,7 @@ const messageSchema = Joi.object({
     chatId: Joi.string().required(),
     senderId: Joi.string().required(),
     content: Joi.string().default(null),
-    fileUrl: Joi.string().default(null),
+    fileUrl: Joi.string().allow('').default(null),
     createdAt: Joi.date().timestamp().default(Date.now()),
     updatedAt: Joi.date().timestamp().default(null),
     _destroy: Joi.boolean().default(false),

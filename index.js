@@ -11,7 +11,7 @@ import todoRoute from './src/v1/routers/todoRoute.js';
 import calendarRoute from './src/v1/routers/calendarRoute.js';
 import uploadRoute from './src/v1/routers/uploadRoute.js';
 import kanbanRoute from './src/v1/routers/kanban/kanbanRoute.js';
-import timeSheetsRoute from './src/v1/routers/timeSheets.js';
+import timesheetsRoute from './src/v1/routers/timesheets/timesheetsRoute.js';
 import { connectDB } from './config/mongodb.js';
 
 dotenv.config();
@@ -49,7 +49,7 @@ const bootServer = () => {
     app.use('/v1/api/todo', todoRoute);
     app.use('/v1/api/calendar', calendarRoute);
     app.use('/v1/api/kanban', kanbanRoute);
-    app.use('/v1/api/timeSheets', timeSheetsRoute);
+    app.use('/v1/api/timesheets', timesheetsRoute);
     app.use('/v1/api/upload', uploadRoute);
 
     app.listen(process.env.PORT || 5000, () => {
